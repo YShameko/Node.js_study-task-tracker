@@ -1,12 +1,19 @@
 const taskService = require('./modules/taskService');
 const formatTask = require('./modules/taskFormatter');
+const fileStorage = require('./modules/fileStorage');
 
-console.log('=== Початок перевірки роботи трекера задач ===\n');
+console.log('=== Запуск трекера задач з файловим сховищем ===\n');
 
+fileStorage.initStorage();
+//читаємо задачі з файлу
+taskService.loadTasksFromStorage();
+
+// додаємо задачі, addTask одразу записує кожну у файл
 taskService.addTask('Learn Node.js modules');
 taskService.addTask('Practice fs module');
 taskService.addTask('Build a great app');
-console.log('Додано 3 задачі.\n');
+taskService.addTask('Learn fs and path modules');
+taskService.addTask('Master Node.js file system');
 
 function displayAllTasks() {
   const allTasks = taskService.getTasks();
@@ -21,18 +28,8 @@ function displayAllTasks() {
   console.log('-----------------------------\n');
 }
 
+// виведимо список задач у консоль.
 displayAllTasks();
 
-// задачу виконано
-console.log('Позначаємо задачу [1] як виконану...');
-taskService.completeTask(1);
-displayAllTasks();
-
-// задачу видалено
-console.log('Видаляємо задачу [2]...');
-taskService.deleteTask(2);
-
-displayAllTasks();
-
-console.log('=== Перевірку завершено! ===');
+console.log('=== Роботу трекера завершено! ===');
 
