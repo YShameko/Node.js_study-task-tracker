@@ -1,19 +1,8 @@
+const fileStorage = require('./modules/fileStorage');
 const taskService = require('./modules/taskService');
 const formatTask = require('./modules/taskFormatter');
-const fileStorage = require('./modules/fileStorage');
-
-console.log('=== Запуск трекера задач з файловим сховищем ===\n');
-
-fileStorage.initStorage();
-//читаємо задачі з файлу
-taskService.loadTasksFromStorage();
-
-// додаємо задачі, addTask одразу записує кожну у файл
-taskService.addTask('Learn Node.js modules');
-taskService.addTask('Practice fs module');
-taskService.addTask('Build a great app');
-taskService.addTask('Learn fs and path modules');
-taskService.addTask('Master Node.js file system');
+const { printSystemInfo } = require('./modules/systemInfo');
+const trackerLogger = require('./modules/eventLogger');
 
 function displayAllTasks() {
   const allTasks = taskService.getTasks();
@@ -28,8 +17,36 @@ function displayAllTasks() {
   console.log('-----------------------------\n');
 }
 
-// виведимо список задач у консоль.
+printSystemInfo();
+
+trackerLogger.emit('appStarted');
+console.log('=== Запуск трекера задач ===\n');
+
+fileStorage.initStorage();
+//читаємо задачі з файлу
+taskService.loadTasksFromStorage();
+
+// додаємо задачі, addTask одразу записує кожну у файл
+console.log('Додаємо задачі...');
+taskService.addTask('Learn Node.js modules');
+taskService.addTask('Practice fs module');
+taskService.addTask('Build a great app');
+taskService.addTask('Learn fs and path modules');
+taskService.addTask('Master Node.js file system');
+const task1 = taskService.addTask('Learn Node.js events');
+const task2 = taskService.addTask('Study crypto and os core modules');
+
+// виводимо список задач у консоль.
 displayAllTasks();
 
-console.log('=== Роботу трекера завершено! ===');
+taskService.completeTask(task1.id);
+console.log('Задачу з ID:', task1.id, ', ', task1.title, ' - виконано.');
+
+taskService.deleteTask(task2.id);
+console.log('\nЗадачу з ID:', task2.id, ', ', task2.title, ' - видалено.\n');
+
+console.log('Після оновлення:');
+displayAllTasks();
+
+console.log('=== Роботу трекера завершено! ===\n');
 

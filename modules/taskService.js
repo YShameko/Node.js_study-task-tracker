@@ -1,4 +1,6 @@
 const fileStorage = require('./fileStorage');
+const crypto = require('crypto');
+const trackerLogger = require('./eventLogger');
 
 let tasks = [];
 let currentId = 1; // ID для задач
@@ -11,15 +13,27 @@ function addTask(title) {
     currentId = Math.max(...tasks.map(t => t.id)) + 1;
   }
 
+  const id = currentId++;
+  const createdAt = new Date().toISOString();
+
+  // ГЕНЕРАЦІЯ ХЕШУ
+  const hash = crypto
+    .createHash('sha256')
+    .update(`${id}-${title}-${createdAt}`)
+    .digest('hex');
+
   const newTask = {
-    id: currentId++,
-    title: title,
+    id,
+    title,
     completed: false,
-    createdAt: new Date().toISOString()
+    createdAt,
+    hash 
   };
   
   tasks.push(newTask);
   fileStorage.saveTasks(tasks); 
+  trackerLogger.emit('taskCreated', title);
+  
   return newTask;
 }
 
@@ -34,6 +48,7 @@ function completeTask(id) {
   if (task) {
     task.completed = true;
     fileStorage.saveTasks(tasks); 
+    trackerLogger.emit('taskCompleted', id);
     return task;
   }
   return null;
@@ -45,6 +60,7 @@ function deleteTask(id) {
   if (index !== -1) {
     const deletedTask = tasks.splice(index, 1)[0];
     fileStorage.saveTasks(tasks); 
+    trackerLogger.emit('taskDeleted', id);
     return deletedTask;
   }
   return null;
