@@ -1,91 +1,100 @@
 # Node.js_study-task-tracker
 **HW 12. № 3 — Події, хеші та інформація про систему**
 
-*Логування подій у Task Tracker*
+*Простий сервер на Node.js*
 
 ### Що практикуємо
-events
-crypto
-os
-fs
-створення логів
+http
+URL
+маршрутизацію через req.url
+query parameters
+роботу з JSON-відповідями
+повторне використання модулів з попередніх ДЗ
 
 ### Завдання
-Розшир проєкт так, щоб він логував важливі події.
+Створи HTTP-сервер для свого Study Task Tracker.
 
-Наприклад:
-задача створена;
-задача виконана;
-задача видалена;
-програма запущена.
-Оновлена структура
-study-task-tracker/
-  app.js
-  data/
-    tasks.json
-    events.log
-  modules/
-    taskService.js
-    taskFormatter.js
-    fileStorage.js
-    eventLogger.js
-    systemInfo.js
+Без Express. Тільки вбудований модуль http.
 
-### Вимоги
-Створи модуль eventLogger.js.
+#### Оновлена структура
+study-task-tracker/  
+  server.js  
+  data/  
+    tasks.json  
+    events.log  
+  modules/  
+    taskService.js  
+    taskFormatter.js  
+    fileStorage.js  
+    eventLogger.js  
+    systemInfo.js  
 
-У ньому використай EventEmitter.
+### Вимоги до API
+#### 1. Головна сторінка
+GET /
+Відповідь:
+<h1>Study Task Tracker API</h1>
 
-Мають бути події:
-taskCreated
-taskCompleted
-taskDeleted
-appStarted
-Коли подія відбувається, її треба записати у файл events.log.
+#### 2. Отримати всі задачі
+GET /tasks
+Відповідь має бути у форматі JSON:
+[
+  {
+"id": 1,
+    "title": "Learn fs module",
+    "completed": false
+  }
+]
 
-Приклад запису:
-2026-07-03T12:30:00.000Z | taskCreated | Task "Learn fs module" was created
+#### 3. Фільтрація задач
+GET /tasks?status=completed
+Повертає тільки виконані задачі.
 
-### Crypto
-Для кожної задачі додай поле hash.
+GET /tasks?status=active
+Повертає тільки невиконані задачі.
 
-Хеш має створюватися на основі:
+Для читання query параметрів використовуй:
+const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
 
-назви задачі;
-дати створення;
-id.
-Наприклад:
-crypto
- .createHash('sha256')
-  .update(`${id}-${title}-${createdAt}`)
-  .digest('hex')
-Задача тепер має виглядати так:
+#### 4. Отримати одну задачу по id
+GET /tasks/1
+Якщо задача існує — повернути її.
 
-{  id: 1,
-  title: 'Learn Node.js events',
-  completed: false,
-  createdAt: '2026-07-03T...',
-  hash: 'a8f3...'
+Якщо задачі немає — повернути:
+{
+"error": "Task not found"
+}
+і статус 404.
+
+#### 5. Створити задачу
+POST /tasks
+Тіло запиту:
+{
+"title": "Practice HTTP module"
 }
 
-### OS
-Створи модуль systemInfo.js.
+Після створення задача має:
 
-Він має виводити:
+зберегтися у tasks.json;
+отримати id;
+отримати hash;
+створити подію taskCreated;
+повернутися у відповіді.
 
-операційну систему;
-кількість вільної пам’яті;
-час роботи системи;
-кількість CPU.
-Цю інформацію треба вивести при старті програми.
+### Вимоги до відповіді сервера
+Для JSON-відповідей додавай header:
+res.writeHead(200, { 'Content-Type': 'application/json' });
+
+Для HTML:
+res.writeHead(200, { 'Content-Type': 'text/html' });
 
 ### Результат
 Після запуску:
-node app.js
-має бути:
+node server.js
+сервер має працювати на порту 3000.
 
-список задач;
-інформація про систему;
-файл 
-events.log;
-у кожної задачі має бути hash.
+Перевірити можна в браузері або через Postman/Insomnia:
+http://localhost:3000/
+http://localhost:3000/tasks
+http://localhost:3000/tasks?status=completed
+http://localhost:3000/tasks/1
