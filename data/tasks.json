@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "title": "Learn Node.js modules",
+    "completed": false,
+    "createdAt": "2026-07-11T15:06:10.108Z",
+    "hash": "eae0f2b61c53cbf55847fd0307b4f9529cf32778e64150bc8b217d5e10286ed2"
+  },
+  {
+    "id": 2,
+    "title": "Practice fs module",
+    "completed": false,
+    "createdAt": "2026-07-11T15:06:10.114Z",
+    "hash": "e2e384abbc07c3120dc4e39017745d0d0aff71935a7b01df7bc529227099e5e3"
+  },
+  {
+    "id": 3,
+    "title": "Build a great app",
+    "completed": false,
+    "createdAt": "2026-07-11T15:06:10.115Z",
+    "hash": "4cced0f79442b1a5e169f517c473c098f6ca7c792bdc7df29a37c946bebcb677"
+  },
+  {
+    "id": 4,
+    "title": "Learn fs and path modules",
+    "completed": false,
+    "createdAt": "2026-07-11T15:06:10.116Z",
+    "hash": "b87496d896f7f39f499d97137721acace1f494147748e54156e14e06d3fc4ef6"
+  },
+  {
+    "id": 5,
+    "title": "Master Node.js file system",
+    "completed": false,
+    "createdAt": "2026-07-11T15:06:10.155Z",
+    "hash": "453f7a6728144899ce7bc06f0dee133d1543be6249a7c337d3ab8ad5c5b18028"
+  },
+  {
+    "id": 6,
+    "title": "Learn Node.js events",
+    "completed": true,
+    "createdAt": "2026-07-11T15:06:10.157Z",
+    "hash": "c46a012ed4f454987cad57999c0ba742310a46680e00044a51fc6d98b7fc98b4"
+  },
+  {
+    "id": 7,
+    "title": "Practice HTTP module",
+    "completed": false,
+    "createdAt": "2026-07-11T15:14:30.071Z",
+    "hash": "8e761f67f03e344f1607ba857ef4066f9e09ce4aa116254bfe58b7021b528e35"
+  }
+]

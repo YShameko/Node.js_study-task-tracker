@@ -1,5 +1,5 @@
 # Node.js_study-task-tracker
-**HW 12. № 3 — Події, хеші та інформація про систему**
+**HW 13. №4 — HTTP API для Task Tracker**
 
 *Простий сервер на Node.js*
 
@@ -17,27 +17,30 @@ query parameters
 Без Express. Тільки вбудований модуль http.
 
 #### Оновлена структура
-study-task-tracker/  
-  server.js  
-  data/  
-    tasks.json  
-    events.log  
-  modules/  
-    taskService.js  
-    taskFormatter.js  
-    fileStorage.js  
-    eventLogger.js  
-    systemInfo.js  
+
+```text
+study-task-tracker/
+  ├── server.js
+  ├── data/
+  │    ├── tasks.json
+  │    └── events.log
+  └── modules/
+       ├── taskService.js
+       ├── taskFormatter.js
+       ├── fileStorage.js
+       ├── eventLogger.js
+       └── systemInfo.js
+``` 
 
 ### Вимоги до API
 #### 1. Головна сторінка
-GET /
-Відповідь:
+GET /  
+Відповідь:  
 <h1>Study Task Tracker API</h1>
 
 #### 2. Отримати всі задачі
-GET /tasks
-Відповідь має бути у форматі JSON:
+GET /tasks  
+Відповідь має бути у форматі JSON:  
 [
   {
 "id": 1,
@@ -47,13 +50,13 @@ GET /tasks
 ]
 
 #### 3. Фільтрація задач
-GET /tasks?status=completed
+GET /tasks?status=completed  
 Повертає тільки виконані задачі.
 
-GET /tasks?status=active
+GET /tasks?status=active  
 Повертає тільки невиконані задачі.
 
-Для читання query параметрів використовуй:
+Для читання query параметрів використовуй:  
 const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
 
 #### 4. Отримати одну задачу по id
@@ -73,13 +76,12 @@ POST /tasks
 "title": "Practice HTTP module"
 }
 
-Після створення задача має:
-
-зберегтися у tasks.json;
-отримати id;
-отримати hash;
-створити подію taskCreated;
-повернутися у відповіді.
+Після створення задача має:  
+- зберегтися у tasks.json;  
+- отримати id;  
+- отримати hash;  
+- створити подію taskCreated;  
+-повернутися у відповіді.  
 
 ### Вимоги до відповіді сервера
 Для JSON-відповідей додавай header:
@@ -89,12 +91,12 @@ res.writeHead(200, { 'Content-Type': 'application/json' });
 res.writeHead(200, { 'Content-Type': 'text/html' });
 
 ### Результат
-Після запуску:
-node server.js
-сервер має працювати на порту 3000.
+Після запуску:  
+node server.js  
+сервер має працювати на порту 3000.  
 
-Перевірити можна в браузері або через Postman/Insomnia:
-http://localhost:3000/
-http://localhost:3000/tasks
-http://localhost:3000/tasks?status=completed
-http://localhost:3000/tasks/1
+Перевірити можна в браузері або через Postman/Insomnia:<br>
+http://localhost:3000/<br>
+http://localhost:3000/tasks<br>
+http://localhost:3000/tasks?status=completed<br>
+http://localhost:3000/tasks/1<br>
